@@ -149,7 +149,7 @@ class _SigninBodyState extends State<SigninBody> {
     return Padding(
       padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
       child: TextFormField(
-        keyboardType: TextInputType.phone,
+        keyboardType: TextInputType.emailAddress,
         onChanged: (v) => _email = v,
         onSaved: (v) => _email = v,
         validator: (v) {
