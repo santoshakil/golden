@@ -1,21 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
-
-import '../../screens/home/home.dart';
 
 class Auth {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  static Future<String> signIn(email, password, context) async {
+  static Future<String> signIn(email, password) async {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      await FirebaseFirestore.instance
+          .doc('admins/$email')
+          .set({'signedIn': DateTime.now().toIso8601String()});
       SVProgressHUD.dismiss();
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (_) => HomeScreen()), (route) => false);
+      // Navigator.pushAndRemoveUntil(context,
+      //     MaterialPageRoute(builder: (_) => HomeScreen()), (route) => false);
       return 'SignIn Successful';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

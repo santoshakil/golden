@@ -113,7 +113,7 @@ class _SigninBodyState extends State<SigninBody> {
           _formKey.currentState!.save();
           Keyboard.hide(context);
           SVProgressHUD.show(status: 'Please wait');
-          await Auth.signIn(_email, _password, context);
+          await Auth.signIn(_email, _password);
           // error = registered
           //     ? await Auth.signIn(_email, _password, context)
           //     : await Auth.signUp(

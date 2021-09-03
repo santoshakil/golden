@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,16 @@ class Golden extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: themeData,
-        home: _user != null ? HomeScreen() : AuthScreen(),
+        home: _user != null
+            ? StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                stream: FirebaseFirestore.instance
+                    .doc('admins/${_user.email}')
+                    .snapshots(),
+                builder: (_, data) => data.hasData && data.data!.exists
+                    ? HomeScreen()
+                    : AuthScreen(),
+              )
+            : AuthScreen(),
       ),
     );
   }
