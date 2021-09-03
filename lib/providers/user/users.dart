@@ -15,9 +15,11 @@ class UserProvider with ChangeNotifier {
       price = TextEditingController(text: ''),
       paymentAmount = TextEditingController(text: '');
 
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  Stream<QuerySnapshot<Map<String, dynamic>>> usersStream =
+      FirebaseFirestore.instance.collection('users').snapshots();
 
   Future<void> addUser(context) async {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
     try {
       await users.add({
         'name': name.text,

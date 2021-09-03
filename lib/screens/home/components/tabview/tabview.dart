@@ -21,7 +21,7 @@ class KTabView extends StatelessWidget {
     var _p = Provider.of<UserProvider>(context);
 
     return StreamBuilder<QuerySnapshot<Object?>>(
-      stream: _p.users.snapshots(),
+      stream: _p.usersStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           var _data = snapshot.data;
