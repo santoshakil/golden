@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../components/buttons/default_button.dart';
-import '../../../../../helpers/size_config/size_config.dart';
-import '../../../../../providers/user/users.dart';
+import '../../../../../../components/buttons/default_button.dart';
+import '../../../../../../helpers/size_config/size_config.dart';
+import '../../../../../../providers/user/users.dart';
 
 class CreateUserField extends StatelessWidget {
   const CreateUserField({
@@ -27,7 +27,25 @@ class CreateUserField extends StatelessWidget {
                 controller: _p.name,
                 validator: _validator,
                 keyboardType: TextInputType.name,
+                decoration: InputDecoration(labelText: 'Name'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: TextFormField(
+                controller: _p.userName,
+                validator: _validator,
+                keyboardType: TextInputType.name,
                 decoration: InputDecoration(labelText: 'User Name'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: TextFormField(
+                controller: _p.password,
+                validator: _validator,
+                keyboardType: TextInputType.name,
+                decoration: InputDecoration(labelText: 'Password'),
               ),
             ),
             Padding(

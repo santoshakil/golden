@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../helpers/constants/constants.dart';
 import '../../../../providers/user/users.dart';
-import '../components/user_list.dart';
+import '../components/user_list/user_list.dart';
 
 class KTabView extends StatelessWidget {
   const KTabView({

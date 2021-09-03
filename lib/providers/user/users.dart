@@ -9,6 +9,8 @@ class UserProvider with ChangeNotifier {
   double textFieldHeight = 35.0;
 
   TextEditingController name = TextEditingController(text: ''),
+      userName = TextEditingController(text: ''),
+      password = TextEditingController(text: ''),
       address = TextEditingController(text: ''),
       phone = TextEditingController(text: ''),
       speed = TextEditingController(text: ''),
@@ -23,21 +25,26 @@ class UserProvider with ChangeNotifier {
     try {
       await users.add({
         'name': name.text,
+        'userName': userName.text,
+        'password': password.text,
         'address': address.text,
         'phone': phone.text,
         'speed': speed.text,
         'price': price.text,
         'lastPayment': '',
         'paid': 0.0,
-        'time': DateTime.now(),
+        'time': DateTime.now().toIso8601String(),
       });
       print("User Added");
       Navigator.pop(context);
     } on Exception catch (e) {
       print("Failed to add user: $e");
+      Navigator.pop(context);
     }
 
     name.clear();
+    userName.clear();
+    password.clear();
     address.clear();
     phone.clear();
     speed.clear();
@@ -53,14 +60,10 @@ class UserProvider with ChangeNotifier {
       SVProgressHUD.show();
       var _data = await data.get();
       bool _paid = _data['lastPayment'] == thisMonth.toIso8601String();
-      await data
-          .collection(thisMonth.toIso8601String())
-          .doc()
-          .set({'paid': paymentAmount.text, 'time': DateTime.now()});
       await data.update({
         'lastPayment': thisMonth.toIso8601String(),
         'paid': !_paid
-            ? paymentAmount.text
+            ? double.tryParse(paymentAmount.text)
             : (_data['paid'] ?? 0) + double.tryParse(paymentAmount.text),
       });
       SVProgressHUD.dismiss();

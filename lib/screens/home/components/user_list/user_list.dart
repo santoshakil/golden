@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'user_card.dart';
+import '../user_card/user_card.dart';
 
 class KUserList extends StatelessWidget {
   const KUserList({

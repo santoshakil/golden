@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
 import '../../helpers/size_config/size_config.dart';
-import 'components/create_user.dart';
+import 'components/create_user/create_user.dart';
 import 'tabbar/tabbar.dart';
 import 'tabview/tabview.dart';
 
