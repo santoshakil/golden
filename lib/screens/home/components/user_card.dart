@@ -20,96 +20,82 @@ class KUserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _p = Provider.of<UserProvider>(context);
-    var _payment =
-        _user.reference.collection(thisMonth.toIso8601String()).get();
+    bool _paid = _user['lastPayment'] == thisMonth.toIso8601String();
 
-    return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      future: _payment,
-      builder: (context, snapshot) {
-        bool _hasData = snapshot.hasData && snapshot.data!.docs.length > 0;
-        return Stack(
-          alignment: Alignment.bottomRight,
-          children: [
-            Container(
-              width: ScreenSize.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: _hasData ? Colors.green[50] : Colors.red[50],
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 5,
-              ),
-              margin: const EdgeInsets.all(5),
-              child: Column(
-                crossAxisAlignment: crossStretch,
-                mainAxisSize: mainMin,
+    return Stack(
+      alignment: Alignment.bottomRight,
+      children: [
+        Container(
+          width: ScreenSize.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: _paid ? Colors.green[50] : Colors.red[50],
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 5,
+          ),
+          margin: const EdgeInsets.all(5),
+          child: Column(
+            crossAxisAlignment: crossStretch,
+            mainAxisSize: mainMin,
+            children: [
+              Text('Name:     ' + _user['name'], maxLines: 1),
+              Text('Phone:    ' + _user['phone'], maxLines: 1),
+              Text('Price:    ' + _user['price'], maxLines: 1),
+              _paid
+                  ? Text(
+                      'Payment:  ' + _user['paid'].toString() + ' Taka',
+                      style: TextStyle(color: Colors.green),
+                    )
+                  : Text(
+                      'Payment:  No Payment',
+                      style: TextStyle(color: Colors.redAccent.shade400),
+                    ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Name:     ' + _user['name'], maxLines: 1),
-                  Text('Phone:    ' + _user['phone'], maxLines: 1),
-                  Text('Price:    ' + _user['price'], maxLines: 1),
-                  _hasData
-                      ? Text(
-                          'Payment:  ' +
-                              snapshot.data!.docs
-                                  .fold<double>(
-                                      0,
-                                      (p, c) =>
-                                          p + (double.tryParse(c['paid']) ?? 0))
-                                  .toString() +
-                              ' Taka',
-                          style: TextStyle(color: Colors.green),
-                        )
-                      : Text(
-                          'Payment:  No Payment',
-                          style: TextStyle(color: Colors.redAccent.shade400),
-                        ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Address:  '),
-                      SizedBox(
-                        width: ScreenSize.width * 0.55,
-                        child: Text(_user['address']),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    'Speed:    ' + _user['speed'] + ' Mbps',
-                    maxLines: 1,
+                  Text('Address:  '),
+                  SizedBox(
+                    width: ScreenSize.width * 0.55,
+                    child: Text(_user['address']),
                   ),
                 ],
               ),
-            ),
-            IconButton(
-              icon: Icon(Icons.add_rounded),
-              onPressed: () => showModal(
-                context: context,
-                builder: (_) => AlertDialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  contentPadding: const EdgeInsets.fromLTRB(25, 30, 25, 10),
-                  actionsPadding: const EdgeInsets.only(bottom: 10),
-                  content: TextField(
-                    controller: _p.paymentAmount,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: 'Amount'),
-                  ),
-                  actions: [
-                    DefaultButton(
-                      text: 'Add Payment',
-                      press: () async => await _p.addPayment(
-                        context: context,
-                        data: _user.reference,
-                      ),
-                    ),
-                  ],
-                ),
+              Text(
+                'Speed:    ' + _user['speed'] + ' Mbps',
+                maxLines: 1,
               ),
+            ],
+          ),
+        ),
+        IconButton(
+          icon: Icon(Icons.add_rounded),
+          onPressed: () => showModal(
+            context: context,
+            builder: (_) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              contentPadding: const EdgeInsets.fromLTRB(25, 30, 25, 10),
+              actionsPadding: const EdgeInsets.only(bottom: 10),
+              content: TextField(
+                controller: _p.paymentAmount,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(labelText: 'Amount'),
+              ),
+              actions: [
+                DefaultButton(
+                  text: 'Add Payment',
+                  press: () async => await _p.addPayment(
+                    context: context,
+                    data: _user.reference,
+                  ),
+                ),
+              ],
             ),
-          ],
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
 }

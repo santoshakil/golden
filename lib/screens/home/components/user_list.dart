@@ -16,7 +16,6 @@ class KUserList extends StatelessWidget {
     return ListView.builder(
       shrinkWrap: true,
       itemCount: data.length,
-      physics: NeverScrollableScrollPhysics(),
       itemBuilder: (_, i) {
         var _user = data[i];
         return KUserCard(user: _user);

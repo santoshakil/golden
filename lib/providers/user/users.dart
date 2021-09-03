@@ -28,10 +28,10 @@ class UserProvider with ChangeNotifier {
         'speed': speed.text,
         'price': price.text,
         'lastPayment': '',
+        'paid': 0.0,
         'time': DateTime.now(),
       });
       print("User Added");
-      notifyListeners();
       Navigator.pop(context);
     } on Exception catch (e) {
       print("Failed to add user: $e");
@@ -51,15 +51,21 @@ class UserProvider with ChangeNotifier {
   }) async {
     if (paymentAmount.text.isNotEmpty) {
       SVProgressHUD.show();
+      var _data = await data.get();
+      bool _paid = _data['lastPayment'] == thisMonth.toIso8601String();
       await data
           .collection(thisMonth.toIso8601String())
           .doc()
           .set({'paid': paymentAmount.text, 'time': DateTime.now()});
-      await data.update({'lastPayment': thisMonth.toIso8601String()});
-      paymentAmount.clear();
-      notifyListeners();
+      await data.update({
+        'lastPayment': thisMonth.toIso8601String(),
+        'paid': !_paid
+            ? paymentAmount.text
+            : (_data['paid'] ?? 0) + double.tryParse(paymentAmount.text),
+      });
       SVProgressHUD.dismiss();
       Navigator.pop(context);
+      paymentAmount.clear();
     }
   }
 
