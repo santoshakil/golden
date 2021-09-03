@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
-import 'package:golden/screens/home/home.dart';
+
+import '../../screens/home/home.dart';
 
 class Auth {
   FirebaseAuth auth = FirebaseAuth.instance;

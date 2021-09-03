@@ -7,18 +7,15 @@ import '../../../../../components/buttons/default_button.dart';
 import '../../../../../helpers/constants/constants.dart';
 import '../../../../../helpers/size_config/size_config.dart';
 import '../../../../../providers/user/users.dart';
-import '../../../home.dart';
 
 class KUserCard extends StatelessWidget {
   const KUserCard({
     Key? key,
-    required this.type,
     required QueryDocumentSnapshot<Object?> user,
   })  : _user = user,
         super(key: key);
 
   final QueryDocumentSnapshot<Object?> _user;
-  final TabType type;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +26,7 @@ class KUserCard extends StatelessWidget {
     return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
       future: _payment,
       builder: (context, snapshot) {
-        bool _hasData = type == TabType.due
-            ? false
-            : snapshot.hasData && snapshot.data!.docs.length > 0;
+        bool _hasData = snapshot.hasData && snapshot.data!.docs.length > 0;
         return Stack(
           alignment: Alignment.bottomRight,
           children: [

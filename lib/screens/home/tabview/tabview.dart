@@ -4,9 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../helpers/constants/constants.dart';
 import '../../../../providers/user/users.dart';
-import '../tabs/all.dart';
-import '../tabs/due.dart';
-import '../tabs/paid.dart';
+import '../components/user_list.dart';
 
 class KTabView extends StatelessWidget {
   const KTabView({
@@ -44,9 +42,9 @@ class KTabView extends StatelessWidget {
           return TabBarView(
             controller: _tabController,
             children: [
-              Due(data: _dueUsers),
-              Paid(data: _paidUsers),
-              AllUsers(data: _allUsers),
+              KUserList(data: _dueUsers),
+              KUserList(data: _paidUsers),
+              KUserList(data: _allUsers),
             ],
           );
         } else {
