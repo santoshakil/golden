@@ -17,8 +17,6 @@ class UserProvider with ChangeNotifier {
 
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-  user() {}
-
   Future<void> addUser(context) async {
     try {
       await users.add({
