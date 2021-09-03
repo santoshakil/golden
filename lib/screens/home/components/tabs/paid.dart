@@ -5,7 +5,7 @@ import '../../home.dart';
 import 'components/user_list.dart';
 
 class Paid extends StatelessWidget {
-  final QuerySnapshot<Object?>? data;
+  final List<QueryDocumentSnapshot<Object?>> data;
 
   const Paid({Key? key, required this.data}) : super(key: key);
 

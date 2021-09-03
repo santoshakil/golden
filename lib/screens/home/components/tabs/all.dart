@@ -5,7 +5,7 @@ import '../../home.dart';
 import 'components/user_list.dart';
 
 class AllUsers extends StatelessWidget {
-  final QuerySnapshot<Object?>? data;
+  final List<QueryDocumentSnapshot<Object?>> data;
 
   const AllUsers({Key? key, required this.data}) : super(key: key);
 
